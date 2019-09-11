@@ -1,6 +1,6 @@
 # mkii
 
-A Redis compatible database.
+A Redis compatible database. (*pronounced like mark 2*)
 
 ***mkii is not feature complete nor production ready***
 
