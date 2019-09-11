@@ -4,11 +4,11 @@ A Redis compatible database. (*pronounced like mark 2*)
 
 ***mkii is not feature complete nor production ready***
 
-mkii is a experimental implementation of the Redis database in Rust built around async/await and tokio. mkii goes a tiny step further and leverages [tokio-io-pool](https://github.com/jonhoo/tokio-io-pool) and is conceptually implemented in a thread-per-core manner, a design inspired by the [Seastar](http://seastar.io/) framework (which underpins [ScyllaDB](https://www.scylladb.com/). As a result mkii is able to salably take advantage of multi core systems, while avoid the pitfalls of a thread per connection model.
+mkii is a experimental implementation of the Redis database in Rust built around async/await and tokio. mkii goes a tiny step further and leverages [tokio-io-pool](https://github.com/jonhoo/tokio-io-pool) and is conceptually implemented in a thread-per-core manner, a design inspired by the [Seastar](http://seastar.io/) framework (which underpins [ScyllaDB](https://www.scylladb.com/)). As a result mkii is able to salably take advantage of multi core systems, while avoid the pitfalls of a thread per connection model.
 
 ## Motivation
 
-**mkii is my first Rust project and was developed primarily in my spare time to learn Rust and tokio**. I developed mkii heavily for a some time in 2018, then only recently updated it to work with the new stabilized async/await syntax. As a result, mkii lacks stability (no tests!), and also many features important to a database (such as persistence and configuration) are not implemented.
+**mkii is my first Rust project and was developed primarily in my spare time to learn Rust and tokio**. I developed mkii heavily for a some time in 2018, then only recently updated it to work with the new stabilized async/await syntax. As a result, mkii lacks stability (no tests :(!), and also many features important to a database (such as persistence and configuration) are not implemented.
 
 Primarily I'm using the project to understand how concepts like persistence and transactions can be implemented performantly in a modern in-memory database in Rust. However, I'm open sourcing this project to get feedback and as a chance to learn from others.
 
