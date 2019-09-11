@@ -52,7 +52,7 @@ mkii single core performance is 35% slower than Redis v3.2.12 - however mkii sca
 
 `memtier_benchmark -s 10.128.0.2 -t 8`
 
-![](Screen_Shot_2019-09-11_at_12-fe96d116-cd50-45ac-8883-69774b18d3bc.57.56_PM.png) ![](Screen_Shot_2019-09-11_at_12-7025dc0c-0ff3-489d-9f17-3d821e4d621f.56.25_PM.png)
+![](images/set-perf.png) ![](images/get-perf.png)
 
 ## Getting Started
 
