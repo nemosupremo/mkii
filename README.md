@@ -4,7 +4,7 @@ A Redis compatible database. (*pronounced like mark 2*)
 
 ***mkii is not feature complete nor production ready***
 
-mkii is a experimental implementation of the Redis database in Rust built around async/await and tokio. mkii goes a tiny step further and leverages [tokio-io-pool]([https://github.com/jonhoo/tokio-io-pool](https://github.com/jonhoo/tokio-io-pool)) and is conceptually implemented in a thread-per-core manner, a design inspired by the [Seastar]([http://seastar.io/](http://seastar.io/)) framework (which underpins [ScyllaDB]([https://www.scylladb.com/](https://www.scylladb.com/)). As a result mkii is able to salably take advantage of multi core systems, while avoid the pitfalls of a thread per connection model.
+mkii is a experimental implementation of the Redis database in Rust built around async/await and tokio. mkii goes a tiny step further and leverages [tokio-io-pool](https://github.com/jonhoo/tokio-io-pool) and is conceptually implemented in a thread-per-core manner, a design inspired by the [Seastar](http://seastar.io/) framework (which underpins [ScyllaDB](https://www.scylladb.com/). As a result mkii is able to salably take advantage of multi core systems, while avoid the pitfalls of a thread per connection model.
 
 ## Motivation
 
