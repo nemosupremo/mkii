@@ -2,6 +2,7 @@ use std::env;
 use std::thread;
 use std::net::SocketAddr;
 
+use log::info;
 use tokio::net::TcpListener;
 use tokio::prelude::*;
 
@@ -15,6 +16,7 @@ mod resp;
 
 async fn listen(addr: SocketAddr, worker_pool: tokio_io_pool::Handle) {
     let listener = TcpListener::bind(&addr).await.expect("unable to bind TCP listener");
+    info!("Database is listening on {}", &addr);
     let mut incoming = listener.incoming();
     let mut i = 0;
     while let Some(stream) = incoming.next().await {
@@ -27,9 +29,15 @@ async fn listen(addr: SocketAddr, worker_pool: tokio_io_pool::Handle) {
 }
 
 fn main() {
+    match env::var("RUST_LOG").ok() {
+        Some(_) => (),
+        None => env::set_var("RUST_LOG", "mkii"),
+    };
+    env_logger::init();
+    info!("Starting mkii v{} database...", env!("CARGO_PKG_VERSION"));
+
     // Bind the server's socket.
     let addr = "0.0.0.0:6379".parse().unwrap();
-
 
     let mut iopool_builder = tokio_io_pool::Builder::default();
     iopool_builder.name_prefix("pool-worker-");
@@ -43,13 +51,13 @@ fn main() {
 
     if pool_size > 0 {
         iopool_builder.pool_size(pool_size);
-        println!("pool size: {}", pool_size);
+        info!("Thread pool size: {}", pool_size);
     } else {
-        println!("pool size: default");
+        info!("Thread pool size: default");
     }
 
     let core_ids = core_affinity::get_core_ids().unwrap();
-    println!("{} cores", core_ids.len());
+    info!("CPU has {} cores", core_ids.len());
     {
         let i = std::sync::Arc::new(std::sync::atomic::AtomicUsize::new(0));
         iopool_builder.after_start(move || {

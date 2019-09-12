@@ -1,8 +1,10 @@
-use bytes::{BufMut, Bytes, BytesMut};
-use seahash::SeaHasher;
 use std::hash::{Hash, Hasher};
 use std::str;
 use std::time;
+
+use bytes::{BufMut, Bytes, BytesMut};
+use seahash::SeaHasher;
+use log::debug;
 use byteorder::{BigEndian, WriteBytesExt};
 
 use super::{database, database::Scalar, database::Value as DBValue, resp, Args, Command, Database, Error, Execute};
@@ -518,7 +520,7 @@ impl Bitfield {
 
     fn read_field(arr: &[u8], t: BitfieldType, offset: usize) -> BitfieldType {
         if offset > (arr.len()) {
-            println!("offset len was greater than array len {:} {:}", arr.len(), offset);
+            debug!("offset len was greater than array len {:} {:}", arr.len(), offset);
             match t {
                 BitfieldType::Unsigned(_) => {
                     BitfieldType::Unsigned(0)
@@ -537,7 +539,7 @@ impl Bitfield {
 
                     let mut j = 0 as u64;
                     let bo = (offset % 8) as u64;
-                    println!("offset: {} o: {}", offset, o);
+                    debug!("offset: {} o: {}", offset, o);
                     // final but pos
                     let fbp = i_sz+bo;
                     for i in (0+bo..fbp).rev() {
@@ -555,7 +557,7 @@ impl Bitfield {
                     let mut j = 0 as u64;
                     let mut m = 1;
                     let bo = (offset % 8) as i64;
-                    println!("offset: {} o: {}", offset, o);
+                    debug!("offset: {} o: {}", offset, o);
                     // final but pos
                     let fbp = i_sz+bo;
                     for i in (0+bo..fbp).rev() {
@@ -764,10 +766,10 @@ impl Execute for Bitfield {
                         byteval |= bitval << bit;
                         // p[byte] = byteval & 0xff;
                         arr.1[byte as usize] = byteval & 0xff;
-                        println!("Setting pos {:?} to {:?}", byte, byteval & 0xff);
+                        debug!("Setting pos {:?} to {:?}", byte, byteval & 0xff);
                         offset += 1;
                     }
-                    println!("{:?}", arr.1);
+                    debug!("{:?}", arr.1);
                 },
                 BitfieldCommand::IncrBy(t, o64, value) => {
                     has_stored = true;
@@ -852,7 +854,7 @@ impl Execute for Bitfield {
                             byteval |= bitval << bit;
                             // p[byte] = byteval & 0xff;
                             arr.1[byte as usize] = byteval & 0xff;
-                            //println!("Setting pos {:?} to {:?}", byte, byteval & 0xff);
+                            //debug!("Setting pos {:?} to {:?}", byte, byteval & 0xff);
                             offset += 1;
                         }
 
@@ -867,7 +869,7 @@ impl Execute for Bitfield {
         }
 
         if has_stored {
-            println!("sz: {:?}; into {:?}", arr.1.len(), &arr.0);
+            debug!("sz: {:?}; into {:?}", arr.1.len(), &arr.0);
             db.insert(arr.0, DBValue::Scalar(Scalar::String(arr.1.freeze())));
         }
 
